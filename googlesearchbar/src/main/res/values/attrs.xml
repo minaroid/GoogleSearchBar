@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by : Mina George ,  at :  12/7/2019.
+  ~ Email : minageorge888@gmail.com
+  -->
+
+<resources>
+    <declare-styleable name="GoogleSearchBarView">
+
+        <attr name="GoogleSB_et_background" format="reference|integer"/>
+        <attr name="GoogleSB_et_text_color" format="reference|color"/>
+        <attr name="GoogleSB_et_hint" format="string"/>
+        <attr name="GoogleSB_et_elevation" format="dimension"/>
+        <attr name="GoogleSB_et_textSize" format="dimension"/>
+
+        <attr name="GoogleSB_et_marginLeft" format="dimension"/>
+        <attr name="GoogleSB_et_marginRight" format="dimension"/>
+        <attr name="GoogleSB_et_marginTop" format="dimension"/>
+        <attr name="GoogleSB_et_marginBottom" format="dimension"/>
+
+        <attr name="GoogleSB_et_paddingLeft" format="dimension"/>
+        <attr name="GoogleSB_et_paddingRight" format="dimension"/>
+        <attr name="GoogleSB_et_paddingTop" format="dimension"/>
+        <attr name="GoogleSB_et_paddingBottom" format="dimension"/>
+
+    </declare-styleable>
+</resources>

@@ -1,7 +1,12 @@
+<!--
+  ~ Created by : Mina George ,  at :  12/7/2019.
+  ~ Email : minageorge888@gmail.com
+  -->
+
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

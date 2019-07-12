@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ Created by : Mina George ,  at :  12/7/2019.
+  ~ Email : minageorge888@gmail.com
+  -->
+
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorBlack">#000</color>
 </resources>

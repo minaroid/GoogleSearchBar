@@ -47,6 +47,8 @@ dependencies {
     implementation deps.ui.appcompat
     implementation deps.ui.constraintLayout
     implementation deps.ui.recyclerview
+    implementation deps.ui.design
+
 
 
 }
