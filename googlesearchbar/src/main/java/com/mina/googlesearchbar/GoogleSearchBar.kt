@@ -37,7 +37,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
+/**
 
+ this is the main class for GoogleSearchBar library,
+ contains two views searchBar view and the child view ex:(webView)
+
+ **/
 
 @SuppressLint("SupportAnnotationUsage")
 class GoogleSearchBar : FrameLayout {
@@ -45,7 +50,6 @@ class GoogleSearchBar : FrameLayout {
 
     var onProcessSearchListener: OnProcessSearchListener? = null
     private var googleSearchAdapter: GoogleSearchAdapter<RecyclerView.ViewHolder?>? = null
-    private var attributes: TypedArray? = null
     private var disposable = CompositeDisposable()
     private lateinit var searchContainer: ConstraintLayout
     private lateinit var searchEditText: EditText
@@ -62,13 +66,23 @@ class GoogleSearchBar : FrameLayout {
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        attributes = context.obtainStyledAttributes(attrs, R.styleable.GoogleSearchBarView)
         init(context)
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        attributes = context.obtainStyledAttributes(attrs, R.styleable.GoogleSearchBarView)
         init(context)
+        initStyle(attrs, defStyleAttr)
+    }
+
+    private fun initStyle(attrs: AttributeSet, defStyleAttr: Int) {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.GoogleSearchBarView, defStyleAttr, 0)
+            ?: //TODO set default configs and styles .
+            return
+
+        //TODO set searchBar configs from the typed array .
+
+        // to be re-used by a later caller
+        typedArray.recycle()
     }
 
     private fun init(context: Context) {
@@ -79,6 +93,7 @@ class GoogleSearchBar : FrameLayout {
         initButtons()
     }
 
+    // initialize view open and close actions.
     private fun initButtons() {
 
         clearButton.setOnClickListener {
@@ -95,6 +110,7 @@ class GoogleSearchBar : FrameLayout {
     }
 
     private fun initEditText() {
+        // An observable create for listening to editText changes and handle user fast writing.
         disposable.add(RxTextView.beforeTextChangeEvents(searchEditText)
             .debounce(150, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
@@ -125,7 +141,7 @@ class GoogleSearchBar : FrameLayout {
     }
 
     private fun inflateView() {
-
+        // inflate and initialize SearchBar view and its children.
         LayoutInflater.from(context).inflate(R.layout.google_search_layout, this, true)
         searchContainer = findViewById(R.id.searchContainer)
         searchEditText = findViewById(R.id.searchEditText)
@@ -138,6 +154,14 @@ class GoogleSearchBar : FrameLayout {
         currentText = findViewById(R.id.currentText)
 
     }
+
+    /**
+
+     this is a dirty implementation will be enhanced soon,
+     this is responsible for handling the order of views on frameLayout
+     to make the child view (ex.webView) the first and searchBar the second.
+
+     * **/
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

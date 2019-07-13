@@ -21,7 +21,7 @@ allprojects {
 ```
 Add the Gradle dependency:
 ```groovy
-	        implementation 'com.github.minageorge5080:GoogleSearchBar:1.0.0'
+ implementation 'com.github.minageorge5080:GoogleSearchBar:1.0.0'
 ```
 
 
@@ -49,6 +49,9 @@ Add SimpleSearchView to your AppBarLayout:
 
 ### Setup in activity
 ```java
+
+var p = Pattern.compile("(@)?(href=')?(HREF=')?(HREF=\")?(href=\")?[a-zA-Z_0-9\\-]+(\\.\\w[a-zA-Z_0-9\\-]+)+(/[#&\\n\\-=?\\+\\%/\\.\\w]+)?")
+
 val adapter = SearchItemsAdapter() as GoogleSearchAdapter<RecyclerView.ViewHolder?>
         googleSearchBar.setAdapter(adapter)
         googleSearchBar.onProcessSearchListener = object : OnProcessSearchListener {
