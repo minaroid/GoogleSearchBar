@@ -10,21 +10,16 @@
             android:id="@+id/googleSearchBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:GoogleSB_et_hint="Searchhhh"
-            app:GoogleSB_et_elevation="20dp"
-            app:GoogleSB_et_textSize="8sp"
-            app:GoogleSB_et_marginRight="20dp"
-            app:GoogleSB_et_marginLeft="20dp"
-            app:GoogleSB_et_marginTop="20dp"
-            app:GoogleSB_et_paddingLeft="10dp"
-            app:GoogleSB_et_paddingRight="10dp"
-            app:GoogleSB_et_paddingTop="10dp"
-            app:GoogleSB_et_paddingBottom="10dp"
-            app:GoogleSB_et_text_color="@color/colorWhite"
-            app:GoogleSB_et_background="@drawable/shape_google_search_bg"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+        <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+    </com.mina.googlesearchbar.GoogleSearchBar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

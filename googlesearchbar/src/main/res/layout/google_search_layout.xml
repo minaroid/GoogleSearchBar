@@ -10,7 +10,6 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:background="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"

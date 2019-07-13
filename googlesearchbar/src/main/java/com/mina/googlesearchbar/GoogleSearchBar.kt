@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.annotation.SuppressLint
 import android.content.res.TypedArray
+import android.util.TypedValue
 import androidx.annotation.ColorRes
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
+import androidx.core.view.get
 import com.google.android.material.appbar.AppBarLayout
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.mina.googlesearchbar.events.OnProcessSearchListener
@@ -80,6 +83,8 @@ class GoogleSearchBar : FrameLayout {
 
     private fun init(context: Context) {
         disposable = CompositeDisposable()
+
+
         inflateView()
         initEditText()
         initRecyclerView()
@@ -159,6 +164,8 @@ class GoogleSearchBar : FrameLayout {
     }
 
     private fun inflateView() {
+
+
         LayoutInflater.from(context).inflate(R.layout.google_search_layout, this, true)
         searchContainer = findViewById(R.id.searchContainer)
         searchEditText = findViewById(R.id.searchEditText)
@@ -169,10 +176,40 @@ class GoogleSearchBar : FrameLayout {
         openSearchButton = findViewById(R.id.openSearchButton)
         toolbar = findViewById(R.id.toolbar)
         currentText = findViewById(R.id.currentText)
+
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        val searchBarView: View? = get(0)
+        val contentLayout: View? = if (childCount == 2) get(1) else null
+
+        contentLayout?.let {
+            val params = LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT
+            )
+            val tv = TypedValue()
+            var actionBarHeight = 0
+            if (context.theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+            }
+            params.setMargins(0, actionBarHeight, 0, 0)
+            it.layoutParams = params
+            removeView(it)
+            removeView(searchBarView)
+        }
+
+        if (childCount == 0){
+            addView(contentLayout)
+            addView(searchBarView)
+        }
+
+
     }
 
     private fun closeSearchBar() {
-
+        currentText.setText(searchEditText.text)
         searchContainer.animate()
             .setDuration(400)
             .alpha(0.0f)
@@ -291,11 +328,10 @@ class GoogleSearchBar : FrameLayout {
         this.googleSearchAdapter?.onSearchTextSelected = object : OnSearchTextSelected {
             override fun selectedText(newText: String) {
                 ViewUtils.hideKeyboard(searchEditText)
+                closeSearchBar()
+                searchEditText.setText(newText)
                 googleSearchAdapter?.processFilter("")
                 onProcessSearchListener?.searchText(newText)
-                currentText.text = newText
-                searchEditText.setText( newText)
-                closeSearchBar()
             }
         }
     }

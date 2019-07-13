@@ -11,14 +11,14 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="1dp"
         android:padding="8dp"
-        android:elevation="3dp"
+        android:elevation="5dp"
         android:background="@drawable/shape_google_search_bg">
 
     <ImageView
 
             android:id="@+id/searchImageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

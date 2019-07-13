@@ -23,5 +23,7 @@
         <attr name="GoogleSB_et_paddingTop" format="dimension"/>
         <attr name="GoogleSB_et_paddingBottom" format="dimension"/>
 
+
+
     </declare-styleable>
 </resources>
