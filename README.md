@@ -21,7 +21,7 @@ allprojects {
 ```
 Add the Gradle dependency:
 ```groovy
-implementation 'com.github.Ferfalk:SimpleSearchView:0.1.4'
+	        implementation 'com.github.minageorge5080:GoogleSearchBar:1.0.0'
 ```
 
 
@@ -41,6 +41,9 @@ Add SimpleSearchView to your AppBarLayout:
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+
+  </com.mina.googlesearchbar.GoogleSearchBar>
+
 
 ```
 
@@ -98,7 +101,7 @@ data class ItemModelGoogle(val text: String, val imageUrl: String) : GoogleSearc
 ```
 
 ## License
-    Copyright (C) 2018 Fernando Augusto Heeren Falkiewicz
+    Copyright (C) 2019 Mina George
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
