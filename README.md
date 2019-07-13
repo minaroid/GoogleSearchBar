@@ -21,7 +21,9 @@ allprojects {
 ```
 Add the Gradle dependency:
 ```groovy
- implementation 'com.github.minageorge5080:GoogleSearchBar:1.0.0'
+ implementation 'com.github.minageorge5080:GoogleSearchBar:1.0.1'
+ implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
 ```
 
 
