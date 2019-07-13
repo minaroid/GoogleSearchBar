@@ -61,9 +61,7 @@
                         android:id="@+id/buttonClear"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
-                        tools:visibility="visible"
                         android:padding="10dp"
                         app:srcCompat="@drawable/ic_close_black_24dp"/>
 
@@ -115,18 +113,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filterRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/filterRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/app_bar"/>
-
-    </androidx.core.widget.NestedScrollView>
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

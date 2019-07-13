@@ -45,17 +45,7 @@ class GoogleSearchBar : FrameLayout {
 
     var onProcessSearchListener: OnProcessSearchListener? = null
     private var googleSearchAdapter: GoogleSearchAdapter<RecyclerView.ViewHolder?>? = null
-
     private var attributes: TypedArray? = null
-    private var searchBarMarginLeft = 0
-    private var searchBarMarginRight = 0
-    private var searchBarMarginBottom = 0
-    private var searchBarMarginTop = 0
-    private var searchBarPaddingLeft = 0
-    private var searchBarPaddingRight = 0
-    private var searchBarPaddingBottom = 0
-    private var searchBarPaddingTop = 0
-
     private var disposable = CompositeDisposable()
     private lateinit var searchContainer: ConstraintLayout
     private lateinit var searchEditText: EditText
@@ -83,44 +73,18 @@ class GoogleSearchBar : FrameLayout {
 
     private fun init(context: Context) {
         disposable = CompositeDisposable()
-
-
         inflateView()
         initEditText()
         initRecyclerView()
         initButtons()
-//        // searchEditText configs
-//        googleSearchBarEditText = GoogleSearchBarEditText(context)
-//        googleSearchBarEditText!!.imeOptions = EditorInfo.IME_ACTION_SEARCH
-//        googleSearchBarEditText!!.onTextChangedListener = object : OnTextChangedListener {
-//            override fun textChanged(newText: String) {
-//                googleSearchAdapter?.processFilter(newText)
-//            }
-//        }
-//        googleSearchBarEditText!!.onSearchTextSelected = object : OnSearchTextSelected {
-//            override fun selectedText(newText: String) {
-//                googleSearchAdapter?.processFilter("")
-//                onProcessSearchListener?.searchText(newText)
-//            }
-//        }
-//
-//        initSearchEditTextAttr()
-//
-//        // filterRecyclerView configs
-//        googleSearchBarRecyclerView = GoogleSearchBarRecyclerView(context)
-//        googleSearchBarRecyclerView?.layoutManager = LinearLayoutManager(context)
-//
-//        // add views to main layout container
-//        orientation = VERTICAL
-//        addView(googleSearchBarEditText)
-//        addView(googleSearchBarRecyclerView)
     }
 
     private fun initButtons() {
+
         clearButton.setOnClickListener {
-            searchEditText.setText("")
-            googleSearchAdapter?.processFilter("")
+            closeSearchBar()
         }
+
         openSearchButton.setOnClickListener {
             openSearchBar()
         }
@@ -132,29 +96,26 @@ class GoogleSearchBar : FrameLayout {
 
     private fun initEditText() {
         disposable.add(RxTextView.beforeTextChangeEvents(searchEditText)
-            .debounce(300, TimeUnit.MILLISECONDS)
+            .debounce(150, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
             .skip(1)
             .map { it.text().toString().trim().toLowerCase() }
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (it.isNotEmpty()) {
+                if (it.isNotEmpty())
                     googleSearchAdapter?.processFilter(it)
-                    clearButton.visibility = View.VISIBLE
-                } else
-                    clearButton.visibility = View.GONE
             },
                 { throwable -> Log.e(TAG, throwable.message) })
         )
 
         searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (v.text.toString().trim().length >= 3) {
+                if (v.text.toString().trim().length >= 2) {
                     ViewUtils.hideKeyboard(searchEditText)
-                    googleSearchAdapter?.processFilter("")
                     onProcessSearchListener?.searchText(v.text.toString().trim())
                     currentText.text = v.text.toString().trim()
+                    googleSearchAdapter?.processFilter("")
                     closeSearchBar()
                 }
                 return@setOnEditorActionListener true
@@ -164,7 +125,6 @@ class GoogleSearchBar : FrameLayout {
     }
 
     private fun inflateView() {
-
 
         LayoutInflater.from(context).inflate(R.layout.google_search_layout, this, true)
         searchContainer = findViewById(R.id.searchContainer)
@@ -200,7 +160,7 @@ class GoogleSearchBar : FrameLayout {
             removeView(searchBarView)
         }
 
-        if (childCount == 0){
+        if (childCount == 0) {
             addView(contentLayout)
             addView(searchBarView)
         }
@@ -209,7 +169,7 @@ class GoogleSearchBar : FrameLayout {
     }
 
     private fun closeSearchBar() {
-        currentText.setText(searchEditText.text)
+        currentText.text = searchEditText.text
         searchContainer.animate()
             .setDuration(400)
             .alpha(0.0f)
@@ -222,6 +182,7 @@ class GoogleSearchBar : FrameLayout {
     }
 
     private fun openSearchBar() {
+        searchEditText.setText(currentText.text)
         searchContainer.animate()
             .setDuration(400)
             .alpha(1.0f)
@@ -233,94 +194,6 @@ class GoogleSearchBar : FrameLayout {
             })
     }
 
-    private fun initSearchEditTextAttr() {
-
-//        attributes?.getResourceId(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_background,
-//            R.drawable.def_google_search_bg
-//        )?.let { googleSearchBarEditText!!.setBackgroundResource(it) }
-//
-//        attributes?.getString(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_hint
-//        )?.let { googleSearchBarEditText!!.hint = it }
-//
-//        attributes?.getResourceId(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_text_color,
-//            R.color.colorPrimaryDark
-//        )?.let { googleSearchBarEditText!!.setTextColor(it) }
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_elevation,
-//            0f
-//        )?.let { googleSearchBarEditText?.elevation = it }
-//
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_textSize,
-//            0f
-//        )?.let { googleSearchBarEditText?.textSize = it }
-//
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_marginLeft,
-//            0f
-//        )?.let { searchBarMarginLeft = it.toInt() }
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_marginRight,
-//            0f
-//        )?.let { searchBarMarginRight = it.toInt() }
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_marginTop,
-//            0f
-//        )?.let { searchBarMarginTop = it.toInt() }
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_marginBottom,
-//            0f
-//        )?.let { searchBarMarginBottom = it.toInt() }
-//
-//
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_paddingBottom,
-//            0f
-//        )?.let { searchBarPaddingBottom = it.toInt() }
-//
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_paddingTop,
-//            0f
-//        )?.let { searchBarPaddingTop = it.toInt() }
-//
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_paddingRight,
-//            0f
-//        )?.let { searchBarPaddingRight = it.toInt() }
-//
-//        attributes?.getDimension(
-//            R.styleable.GoogleSearchBarView_GoogleSB_et_paddingLeft,
-//            0f
-//        )?.let { searchBarPaddingLeft = it.toInt() }
-//
-//
-//        val params = LayoutParams(
-//            LayoutParams.MATCH_PARENT,
-//            LayoutParams.MATCH_PARENT
-//        )
-//
-//        params.setMargins(searchBarMarginLeft, searchBarMarginTop, searchBarMarginRight, searchBarMarginBottom)
-//        googleSearchBarEditText?.layoutParams = params
-//
-//        googleSearchBarEditText?.setPadding(
-//            searchBarPaddingLeft,
-//            searchBarPaddingTop,
-//            searchBarPaddingRight,
-//            searchBarPaddingBottom
-//        )
-    }
 
     fun setAdapter(adapter: GoogleSearchAdapter<RecyclerView.ViewHolder?>) {
         filterRecyclerView.adapter = adapter
@@ -328,26 +201,12 @@ class GoogleSearchBar : FrameLayout {
         this.googleSearchAdapter?.onSearchTextSelected = object : OnSearchTextSelected {
             override fun selectedText(newText: String) {
                 ViewUtils.hideKeyboard(searchEditText)
-                closeSearchBar()
-                searchEditText.setText(newText)
                 googleSearchAdapter?.processFilter("")
+                closeSearchBar()
+                currentText.text = newText
                 onProcessSearchListener?.searchText(newText)
             }
         }
-    }
-
-    fun setSearchPaddingRelative(start: Int = 0, top: Int = 0, end: Int = 0, bottom: Int = 0) {
-//        val params = LayoutParams(
-//            LayoutParams.MATCH_PARENT,
-//            LayoutParams.MATCH_PARENT
-//        ).set
-//        params.setMargins(left, top, right, bottom)
-//        = params
-    }
-
-    @ColorRes
-    fun setSearchBackgroundColor(color: Int) {
-//        googleSearchBarEditText?.setBackgroundColor(color)
     }
 
     override fun onDetachedFromWindow() {

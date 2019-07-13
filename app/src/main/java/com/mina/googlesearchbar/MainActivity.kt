@@ -20,32 +20,33 @@ import java.util.regex.Pattern
 
 class MainActivity : AppCompatActivity() {
 
-    var p = Pattern.compile("[a-zA-Z_0-9\\-]+(\\.\\w[a-zA-Z_0-9\\-]+)+(/[#&\\n\\-=?\\+\\%/\\.\\w]+)?")
+    var p = Pattern.compile("(@)?(href=')?(HREF=')?(HREF=\")?(href=\")?[a-zA-Z_0-9\\-]+(\\.\\w[a-zA-Z_0-9\\-]+)+(/[#&\\n\\-=?\\+\\%/\\.\\w]+)?")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(googleSearchBar.toolbar)
 
         val adapter = SearchItemsAdapter() as GoogleSearchAdapter<RecyclerView.ViewHolder?>
         googleSearchBar.setAdapter(adapter)
         googleSearchBar.onProcessSearchListener = object : OnProcessSearchListener {
             override fun searchText(newText: String) {
-               if(p.matcher(newText).find()){
-                   webView.loadUrl(newText)
-               }else{
-                   webView.loadUrl("https://www.google.com.eg/search?q=$newText")
-               }
+                if (p.matcher(newText).find()) {
+                    webView.loadUrl(newText)
+                } else {
+                    webView.loadUrl("https://www.google.com.eg/search?q=$newText")
+                }
 
             }
         }
 
         val items = ArrayList<GoogleSearchBarItemModel>()
-        items.add(ItemModelGoogle("Facebook.com", "d"))
-        items.add(ItemModelGoogle("google.com", "d"))
-        items.add(ItemModelGoogle("merna", "d"))
-        items.add(ItemModelGoogle("mari", "d"))
+        items.add(ItemModelGoogle("https://www.facebook.com", ""))
+        items.add(ItemModelGoogle("https://www.google.com", ""))
+        items.add(ItemModelGoogle("https://www.youtube.com", ""))
+        items.add(ItemModelGoogle("https://www.instgram.com", ""))
+        items.add(ItemModelGoogle("https://www.linkedin.com", ""))
+        items.add(ItemModelGoogle("https://www.twitter.com", ""))
         adapter.pushData(items)
 
 
